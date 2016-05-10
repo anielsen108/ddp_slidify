@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Estimating Automobile Mileage</title>
+  <meta charset="utf-8">
+  <meta name="description" content="Estimating Automobile Mileage">
+  <meta name="author" content="anielsen108">
+  <meta name="generator" content="slidify" />
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta http-equiv="X-UA-Compatible" content="chrome=1">
+  <link rel="stylesheet" href="libraries/frameworks/io2012/css/default.css" media="all" >
+  <link rel="stylesheet" href="libraries/frameworks/io2012/css/phone.css" 
+    media="only screen and (max-device-width: 480px)" >
+  <link rel="stylesheet" href="libraries/frameworks/io2012/css/slidify.css" >
+  <link rel="stylesheet" href="libraries/highlighters/highlight.js/css/tomorrow.css" />
+  <base target="_blank"> <!-- This amazingness opens all links in a new tab. -->  <link rel=stylesheet href="./assets/css/ribbons.css"></link>
+
+  
+  <!-- Grab CDN jQuery, fall back to local if offline -->
+  <script src="http://ajax.aspnetcdn.com/ajax/jQuery/jquery-1.7.min.js"></script>
+  <script>window.jQuery || document.write('<script src="libraries/widgets/quiz/js/jquery.js"><\/script>')</script> 
+  <script data-main="libraries/frameworks/io2012/js/slides" 
+    src="libraries/frameworks/io2012/js/require-1.0.8.min.js">
+  </script>
+  
+  
+
+</head>
+<body style="opacity: 0">
+  <slides class="layout-widescreen">
+    
+    <!-- LOGO SLIDE -->
+        <slide class="title-slide segue nobackground">
+  <hgroup class="auto-fadein">
+    <h1>Estimating Automobile Mileage</h1>
+    <h2>Exploring model fit</h2>
+    <p>anielsen108<br/></p>
+  </hgroup>
+  <article></article>  
+</slide>
+    
+
+    <!-- SLIDES -->
+    <slide class="" id="slide-1" style="background:;">
+  <hgroup>
+    <h2>Estimating Automobile Mileage: Exploring model fit using a Shiny App</h2>
+  </hgroup>
+  <article data-timings="">
+    <ul>
+<li><p>The Shiny app allows you to explore the effect of including/excluding various variables from a linear model (without interaction) to see how this effects model fit. </p></li>
+<li><p>Automobile mileage can be estimated as a linear effect of weight, 1/4 mile time, and Horsepower.</p></li>
+<li><p>App URL: <a href="https://anielsen108.shinyapps.io/ddp_app/">https://anielsen108.shinyapps.io/ddp_app/</a></p></li>
+</ul>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-2" style="background:;">
+  <hgroup>
+    <h2>Design of the Shiny App</h2>
+  </hgroup>
+  <article data-timings="">
+    <pre><code class="r"># ui.R includes Checkbox Group Input to allow the user to select variables
+checkboxGroupInput(&quot;variables&quot;, &quot;Variables to Include&quot;,
+                          c(&quot;Weight&quot; = &quot;wt&quot;,
+                            &quot;1/4 mile time&quot; = &quot;qsec&quot;,
+                            &quot;Horsepower&quot; = &quot;hp&quot;)),
+
+# server.R stores these in array
+variables &lt;- eventReactive(input$fitButton, {input$variables})
+
+# A formula for a linear model is built based on the variables checked.
+formulaString &lt;- &quot;mpg ~&quot;
+if (&quot;wt&quot; %in% variables()) formulaString &lt;- paste(formulaString, &quot; wt +&quot;)
+if (&quot;qsec&quot; %in% variables()) formulaString &lt;- paste(formulaString, &quot; qsec +&quot;)
+if (&quot;hp&quot; %in% variables()) formulaString &lt;- paste(formulaString, &quot; hp +&quot;)
+formulaString &lt;- paste(formulaString, &quot; 1 &quot;)
+
+fit &lt;- lm(as.formula(formulaString), mtcars)
+</code></pre>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-3" style="background:;">
+  <hgroup>
+    <h2>Example 1: mpg predicted by weight</h2>
+  </hgroup>
+  <article data-timings="">
+    <p><img src="figure/Example1-1.png" alt="plot of chunk Example1"></p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-4" style="background:;">
+  <hgroup>
+    <h2>Example 2: mpg predicted by quarter mile time and horsepower</h2>
+  </hgroup>
+  <article data-timings="">
+    <p><img src="figure/Example2-1.png" alt="plot of chunk Example2"></p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-5" style="background:;">
+  <hgroup>
+    <h2>Conclusions: inclusion/exclusion matters</h2>
+  </hgroup>
+  <article data-timings="">
+    <ul>
+<li><p>As can be seen from these examples, the app allows the user to visually explore model fit for mileage estimation when including/excluding variables.</p></li>
+<li><p>Visually inspecting the fit is a good method to quickly see if there are any gross modelling errors.</p></li>
+<li><p>Check it out now! App URL: <a href="https://anielsen108.shinyapps.io/ddp_app/">https://anielsen108.shinyapps.io/ddp_app/</a></p></li>
+</ul>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+    <slide class="backdrop"></slide>
+  </slides>
+  <div class="pagination pagination-small" id='io2012-ptoc' style="display:none;">
+    <ul>
+      <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=1 title='Estimating Automobile Mileage: Exploring model fit using a Shiny App'>
+         1
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=2 title='Design of the Shiny App'>
+         2
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=3 title='Example 1: mpg predicted by weight'>
+         3
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=4 title='Example 2: mpg predicted by quarter mile time and horsepower'>
+         4
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=5 title='Conclusions: inclusion/exclusion matters'>
+         5
+      </a>
+    </li>
+  </ul>
+  </div>  <!--[if IE]>
+    <script 
+      src="http://ajax.googleapis.com/ajax/libs/chrome-frame/1/CFInstall.min.js">  
+    </script>
+    <script>CFInstall.check({mode: 'overlay'});</script>
+  <![endif]-->
+</body>
+  <!-- Load Javascripts for Widgets -->
+  
+  <!-- LOAD HIGHLIGHTER JS FILES -->
+  <script src="libraries/highlighters/highlight.js/highlight.pack.js"></script>
+  <script>hljs.initHighlightingOnLoad();</script>
+  <!-- DONE LOADING HIGHLIGHTER JS FILES -->
+   
+  </html>
